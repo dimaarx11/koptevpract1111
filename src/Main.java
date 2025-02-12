@@ -1,15 +1,73 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
+        String userString = getValidString(scanner);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        while (true) {
+
+            System.out.println("Оберіть дію:");
+            System.out.println("1 - Перевернути весь рядок");
+            System.out.println("2 - Перевернути кожне слово");
+            System.out.println("3 - Вийти");
+            System.out.print("Ваш вибір: ");
+
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                System.out.println("Результат: " + reverseString(userString));
+            } else if (choice.equals("2")) {
+                System.out.println("Результат: " + reverseEachWord(userString));
+            } else if (choice.equals("3")) {
+                System.out.println("Програма завершена.");
+                break;
+            } else {
+                System.out.println("Некоректний вибір, спробуйте ще раз.");
+            }
         }
+
+        scanner.close();
+    }
+
+    private static String getValidString(Scanner scanner) {
+        while (true) {
+            System.out.print("Введіть рядок (мінімум 2 слова, кожне не менше 3 символів): ");
+            String input = scanner.nextLine().trim();
+            String[] words = input.split("\\s+");
+
+            if (words.length >= 2) {
+                boolean isValid = true;
+
+                for (String word : words) {
+                    if (word.length() < 3) {
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                if (isValid) {
+                    return input;
+                }
+            }
+
+            System.out.println("Некоректний ввід! Спробуйте ще раз.");
+        }
+    }
+
+    private static String reverseString(String s) {
+        return new StringBuilder(s).reverse().toString();
+    }
+
+
+    private static String reverseEachWord(String s) {
+        String[] words = s.split("\\s+");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            result.append(new StringBuilder(word).reverse()).append(" ");
+        }
+
+        return result.toString().trim();
     }
 }
